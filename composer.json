@@ -24,7 +24,6 @@
         "ext-fileinfo": "*",
         "ext-openssl": "*",
         "ext-simplexml": "*",
-        "ext-sodium": "*",
         "ext-libxml": "*",
         "ext-curl": "*",
         "monolog/monolog": "^2.2",
