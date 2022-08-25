@@ -163,7 +163,7 @@ class BaseClient
 
         $response = $this->performRequest($url, $method, $options);
 
-        return $returnRaw ? $response : $this->castResponseToType($response, $this->config['response_type'] ?? '');
+        return $returnRaw ? $response : $this->castResponseToType($response, $this->config['response_type'] ?? 'array');
     }
 
     /**
