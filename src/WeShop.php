@@ -9,17 +9,19 @@
 namespace WechatShop;
 
 
+use WechatShop\Kernel\Support\Str;
+
 /**
  * CLass Factory
  *
- * @method static \WechatShop\Application\Application       application(array $config)
-// * @method static \WechatShop\Application\Aftersale\Application     aftersale(array $config)
-// * @method static \WechatShop\Application\Coupon\Application        coupon(array $config)
-// * @method static \WechatShop\Application\Delivery\Application      delivery(array $config)
-// * @method static \WechatShop\Application\Order\Application         order(array $config)
-// * @method static \WechatShop\Application\Promoter\Application      promoter(array $config)
-// * @method static \WechatShop\Application\Register\Application      register(array $config)
-// * @method static \WechatShop\Application\Spu\Application           spu(array $config)
+ * @method static \WechatShop\Application\Account\Client        account(array $config)
+ *  @method static \WechatShop\Application\Aftersale\Client     aftersale(array $config)
+ * @method static \WechatShop\Application\Coupon\Client         coupon(array $config)
+ * @method static \WechatShop\Application\Delivery\Client       delivery(array $config)
+ * @method static \WechatShop\Application\Order\Client          order(array $config)
+ * @method static \WechatShop\Application\Promoter\Client       promoter(array $config)
+ * @method static \WechatShop\Application\Register\Client       register(array $config)
+ * @method static \WechatShop\Application\Spu\Client            spu(array $config)
  *
  */
 class WeShop
@@ -27,7 +29,9 @@ class WeShop
 
     public static function make($name, $config)
     {
-        $application = "\\WechatShop\\Application\\Application";
+        $namespace = Str::studly($name);
+
+        $application = "\\WechatShop\\Application\\{$namespace}\\Client";
         return new $application($config);
     }
 
