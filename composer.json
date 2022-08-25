@@ -1,5 +1,5 @@
 {
-    "name": "michael/weshop",
+    "name": "hosanluo/weshop",
     "description": "A package for wechat's shop component",
     "license": "MIT",
     "autoload": {
@@ -47,10 +47,5 @@
         "phpunit/phpunit": "^9.5",
         "symfony/var-dumper": "^5.2",
         "jetbrains/phpstorm-attributes": "^1.0"
-    },
-    "config": {
-        "allow-plugins": {
-            "easywechat-composer/easywechat-composer": true
-        }
     }
 }
