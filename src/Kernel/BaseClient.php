@@ -23,6 +23,11 @@ class BaseClient
 
     protected $tokenKey = 'access_token';
 
+    /**
+     * @var string
+     */
+    protected $baseUri = 'https://api.weixin.qq.com/';
+
 //    protected static $maxRetries = 2;
 
     public function __construct(array $config)
@@ -211,11 +216,11 @@ class BaseClient
      *
      * @return \Psr\Http\Message\RequestInterface
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \WechatShop\Kernel\Exceptions\HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \WechatShop\Kernel\Exceptions\InvalidConfigException
+     * @throws \WechatShop\Kernel\Exceptions\InvalidArgumentException
+     * @throws \WechatShop\Kernel\Exceptions\RuntimeException
      */
     public function applyToRequest(RequestInterface $request, array $requestOptions = []): RequestInterface
     {
