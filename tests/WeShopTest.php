@@ -2,44 +2,69 @@
 /**
  * Notes:
  * User: luoshiqiang
- * Date: 2022/8/24
- * Time: 14:39
+ * Date: 2022/8/25
+ * Time: 16:17
  */
 
 namespace WechatShop\Tests;
 
-use EasyWeChat\Factory;
-use Mockery as m;
-use Monolog\Test\TestCase;
-use WechatShop\Application\Register\Client;
-use WechatShop\Kernel\ServiceContainer;
+use PHPUnit\Framework\TestCase;
+use WechatShop\Kernel\Exceptions\InvalidArgumentException;
 use WechatShop\WeShop;
 
 class WeShopTest extends TestCase
 {
+
     protected $config = [
-        'app_id'    => 'mock-app-id',
-        'secret'    => 'mock-app-secret',
-        'token'     => 'easywechat',
-        'log' => [
-            'level' => 'debug',
-            'file'  => '/tmp/easywechat.log',
-        ],
+        'exception' => null
     ];
 
-    public function testWeShopApplicationInstance()
+    public function testClientAccount()
     {
-        $factory = m::mock(Factory::miniProgram($this->config)->access_token);
-        $factory->allows()->getToken()->andReturn(json_decode('{"access_token":"ACCESS_TOKEN","expires_in":7200}', true));
-        $this->assertSame(json_decode('{"access_token":"ACCESS_TOKEN","expires_in":7200}', true), $factory->getToken());
-        $this->assertInstanceOf('WechatShop\Application\Register\Client', \WechatShop\WeShop::application($this->config)->register);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('base_client init error. invalid config');
+        WeShop::account($this->config);
     }
 
-
-    public function testRegisterApplicationMethod()
+    public function testClientAftersale()
     {
-        $register = m::mock(\WechatShop\WeShop::application($this->config)->register);
-        $register->allows()->apply()->andReturn('{"errcode": 0, "errmsg": "ok"}');
-        $this->assertSame('{"errcode": 0, "errmsg": "ok"}', $register->apply());
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('base_client init error. invalid config');
+        WeShop::aftersale($this->config);
+    }
+
+    public function testClientCoupon()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('base_client init error. invalid config');
+        WeShop::coupon($this->config);
+    }
+
+    public function testClientDelivery()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('base_client init error. invalid config');
+        WeShop::delivery($this->config);
+    }
+
+    public function testClientOrder()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('base_client init error. invalid config');
+        WeShop::order($this->config);
+    }
+
+    public function testClientPromoter()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('base_client init error. invalid config');
+        WeShop::promoter($this->config);
+    }
+
+    public function testClientSpu()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('base_client init error. invalid config');
+        WeShop::spu($this->config);
     }
 }
