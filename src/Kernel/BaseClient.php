@@ -2,6 +2,7 @@
 
 namespace WechatShop\Kernel;
 
+use GuzzleHttp\Client;
 use WechatShop\Kernel\Support\Log;
 use GuzzleHttp\Middleware;
 use Psr\Http\Message\RequestInterface;
@@ -15,12 +16,34 @@ class BaseClient
         request as performRequest;
     }
 
+    /**
+     * @var array
+     */
+    protected $required;
+
+    /**
+     * @var \GuzzleHttp\Client
+     */
     protected $httpClient;
 
+    /**
+     * @var array
+     */
     protected $config;
 
+    /**
+     * @var string
+     */
     protected $accessToken;
 
+    /**
+     * @var string
+     */
+    protected $queryName;
+
+    /**
+     * @var string
+     */
     protected $tokenKey = 'access_token';
 
     /**
@@ -236,11 +259,11 @@ class BaseClient
      *
      * @return array
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \WechatShop\Kernel\Exceptions\HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \WechatShop\Kernel\Exceptions\InvalidConfigException
+     * @throws \WechatShop\Kernel\Exceptions\InvalidArgumentException
+     * @throws \WechatShop\Kernel\Exceptions\RuntimeException
      */
     protected function getQuery(): array
     {
@@ -309,4 +332,36 @@ class BaseClient
 //            return false;
 //        });
 //    }
+
+    /**
+     * verifyParams
+     *
+     * @throws InvalidArgumentException
+     */
+    public function verifyParams(array $params)
+    {
+        foreach ($this->required as $value) {
+            if (is_array($value)) {
+                $verifyKey = $value['key'];
+                $verifyValue = $value['value'];
+                if (is_array($verifyValue)) {
+                    if (!isset($params[$verifyKey]) || !in_array($params[$verifyKey], $verifyValue)) {
+                        throw new InvalidArgumentException('Attribute "' . $verifyKey . '" value was incorrect, plz reference wechat\'s documents!');
+                    }
+                } else {
+                    if (!isset($params[$verifyKey]) || $params[$verifyKey] != $verifyValue) {
+                        throw new InvalidArgumentException('Attribute "'. !isset($params[$verifyKey]) .$verifyKey . '" value was incorrect, plz reference wechat\'s documents!!');
+                    }
+                }
+            } else {
+                if (!isset($params[$value])
+                    || empty($params[$value])
+                    || is_null($params[$value])
+                    || $params[$value] === ''
+                ) {
+                    throw new InvalidArgumentException('Attribute "' . $value . '" can not be empty!');
+                }
+            }
+        }
+    }
 }
